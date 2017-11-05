@@ -1,4 +1,2 @@
-lib/node_modules
-css/
-lib/.sass-cache
+node_modules/
 data/
