@@ -14,7 +14,6 @@ const getBookCommentary = (commentary, book) => {
     currentCommentary = new sqlite3.Database(commentPath);
     currentCommentary.all(`SELECT * FROM BookCommentary WHERE Book = ${book}`, (err, data) => {
       if (err) return reject(err);
-      console.log('data', data);
       resolve(data);
     })
   })
@@ -26,7 +25,6 @@ const getVerseCommentary = (commentary, book, chapter, verse) => {
     currentCommentary = new sqlite3.Database(commentPath);
     currentCommentary.all(`SELECT * FROM VerseCommentary WHERE Book = ${book} AND ChapterBegin = ${chapter} AND ChapterEnd = ${chapter} AND VerseBegin <= ${verse} AND VerseEnd >= ${verse}`, (err, data) => {
       if (err) return reject(err);
-      console.log('data', data);
       resolve(data);
     })
   })

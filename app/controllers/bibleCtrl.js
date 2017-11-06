@@ -1,9 +1,25 @@
 'use strict';
 
-const { getBook } = require('../models/bibles');
+const { getBook, getVerse, getChapter } = require('../models/bibles');
 
 module.exports.getABook = ({params:{version, book, chapter}}, res, next) => {
   getBook(version, book, chapter)
+  .then( (data) => {
+    res.status(200).json(data);
+  })
+  .catch( (err) => next(err));
+}
+
+module.exports.getAVerse = ({params:{version, book, chapter, verse}}, res, next) => {
+  getVerse(version, book, chapter, verse)
+  .then( (data) => {
+    res.status(200).json(data);
+  })
+  .catch( (err) => next(err));
+}
+
+module.exports.getChapters = ({params:{book}}, res, next) => {
+  getChapter(book)
   .then( (data) => {
     res.status(200).json(data);
   })

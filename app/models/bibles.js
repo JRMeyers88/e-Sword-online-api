@@ -8,10 +8,8 @@ let currentBible;
 
 const getBook = (version, book, chapter) => {
   return new Promise( (resolve, reject) => {
-    console.log("mod version", version);
     const versionPath = path.resolve(__dirname, `../../data/bibles/${version}.bbli`);
     const currentBible = new sqlite3.Database(versionPath);
-    console.log('current bible', currentBible);
     currentBible.all(`SELECT * FROM Bible WHERE Book = ${book} and Chapter = ${chapter}`, (err, data) => {
       if (err) return reject(err);
       resolve(data);
@@ -19,4 +17,27 @@ const getBook = (version, book, chapter) => {
   })
 } 
 
-module.exports = { getBook };
+const getChapter = (book) => {
+  return new Promise( (resolve, reject) => {
+    const versionPath = path.resolve(__dirname, `../../data/bibles/kjv.bbli`);
+    const currentBible = new sqlite3.Database(versionPath);
+    currentBible.all(`SELECT DISTINCT Chapter FROM Bible WHERE Book = ${book}`, (err, data) => {
+      if (err) return reject(err);
+      console.log('chapters', data);
+      resolve(data);
+    })
+  })
+}
+
+const getVerse = (version, book, chapter, verse) => {
+  return new Promise( (resolve, reject) => {
+    const versionPath = path.resolve(__dirname, `../../data/bibles/${version}.bbli`);
+    const currentBible = new sqlite3.Database(versionPath);
+    currentBible.all(`SELECT * FROM Bible WHERE Book = ${book} and Chapter = ${chapter} and Verse = ${verse}`, (err, data) => {
+      if (err) return reject(err);
+      resolve(data);
+    })
+  })
+} 
+
+module.exports = { getBook, getVerse, getChapter };
