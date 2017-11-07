@@ -6,6 +6,6 @@ const { getABook, getAVerse, getChapters } = require('../app/controllers/bibleCt
 
 router.get('/bible/:version/:book/:chapter', getABook);
 router.get('/bible/:version/:book/:chapter/:verse', getAVerse);
-router.get('/bible/:book', getChapters);
+router.get('/bible/:version/:book', getChapters);
 
 module.exports = router;

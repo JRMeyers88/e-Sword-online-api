@@ -18,8 +18,8 @@ module.exports.getAVerse = ({params:{version, book, chapter, verse}}, res, next)
   .catch( (err) => next(err));
 }
 
-module.exports.getChapters = ({params:{book}}, res, next) => {
-  getChapter(book)
+module.exports.getChapters = ({params:{version, book}}, res, next) => {
+  getChapter(version, book)
   .then( (data) => {
     res.status(200).json(data);
   })

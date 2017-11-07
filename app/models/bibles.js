@@ -10,16 +10,16 @@ const getBook = (version, book, chapter) => {
   return new Promise( (resolve, reject) => {
     const versionPath = path.resolve(__dirname, `../../data/bibles/${version}.bbli`);
     const currentBible = new sqlite3.Database(versionPath);
-    currentBible.all(`SELECT * FROM Bible WHERE Book = ${book} and Chapter = ${chapter}`, (err, data) => {
+    currentBible.all(`SELECT * FROM Bible WHERE Book = ${book} and Chapter = ${chapter} ORDER BY Verse`, (err, data) => {
       if (err) return reject(err);
       resolve(data);
     })
   })
 } 
 
-const getChapter = (book) => {
+const getChapter = (version, book) => {
   return new Promise( (resolve, reject) => {
-    const versionPath = path.resolve(__dirname, `../../data/bibles/kjv.bbli`);
+    const versionPath = path.resolve(__dirname, `../../data/bibles/${version}.bbli`);
     const currentBible = new sqlite3.Database(versionPath);
     currentBible.all(`SELECT DISTINCT Chapter FROM Bible WHERE Book = ${book}`, (err, data) => {
       if (err) return reject(err);
