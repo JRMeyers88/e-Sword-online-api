@@ -23,7 +23,6 @@ const getChapter = (version, book) => {
     const currentBible = new sqlite3.Database(versionPath);
     currentBible.all(`SELECT DISTINCT Chapter FROM Bible WHERE Book = ${book}`, (err, data) => {
       if (err) return reject(err);
-      console.log('chapters', data);
       resolve(data);
     })
   })
