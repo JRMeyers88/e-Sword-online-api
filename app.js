@@ -12,6 +12,7 @@ let routes = require("./routes/");
 app.use(`/`, routes);
 
 app.use((req, res, next) => {
+  console.log('req', req.body);
   let err = new Error("Not Found");
   err.status = 404;
   next("Moving Along");
