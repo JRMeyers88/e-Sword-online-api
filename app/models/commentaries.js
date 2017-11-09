@@ -23,7 +23,7 @@ const getVerseCommentary = (commentary, book, chapter, verse) => {
   return new Promise( (resolve, reject) => {
     const commentPath = path.resolve(__dirname, `../../data/commentaries/${commentary}.cmti`);    
     currentCommentary = new sqlite3.Database(commentPath);
-    currentCommentary.all(`SELECT * FROM VerseCommentary WHERE Book = ${book} AND ChapterBegin = ${chapter} AND ChapterEnd = ${chapter} AND VerseBegin <= ${verse} AND VerseEnd >= ${verse}`, (err, data) => {
+    currentCommentary.all(`SELECT rowid,* FROM VerseCommentary WHERE Book = ${book} AND ChapterBegin = ${chapter} AND ChapterEnd = ${chapter} AND VerseBegin <= ${verse} AND VerseEnd >= ${verse} UNION SELECT rowid,* FROM VerseCommentary WHERE Book = ${book} AND ChapterBegin = ${chapter} AND VerseBegin <= ${verse} AND ChapterBegin <> ChapterEnd UNION SELECT rowid,* FROM VerseCommentary WHERE Book = ${book} AND ChapterEnd = ${chapter} AND VerseEnd >= ${verse} AND ChapterBegin <> ChapterEnd UNION SELECT rowid,* FROM VerseCommentary WHERE Book = ${book} AND ChapterBegin < ${chapter} AND ChapterEnd > ${chapter} ORDER BY rowid`, (err, data) => {
       if (err) return reject(err);
       resolve(data);
     })
